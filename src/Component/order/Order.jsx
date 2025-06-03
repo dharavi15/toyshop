@@ -68,7 +68,7 @@ function Order() {
                   <div className="cart-item">
                     <img className="order-img" src={item.img} alt="" />{" "}
                     <span className="cart-info">
-                      {item.name}
+                      <span>{item.name}</span>
                       <p>{item.price}:-</p>
                     </span>
                   </div>

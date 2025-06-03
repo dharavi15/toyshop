@@ -12,8 +12,10 @@ export const getMenuFromFirestore = async () => {
 
 export const addMenuItemToFirestore = async (newItem) => {
   try {
-    const docRef = await addDoc(collection(db, "menu"), newItem);
+    const docRef = await addDoc(collection(db, "menu"), { ...newItem, id: "temp" });
+    //const docRef = await addDoc(collection(db, "menu"), ...newItem, id: "temp");
     console.log("Document written with ID:", docRef.id); /* docRef-a new document is created and docRef id auto generated firestore id for the new item*/
+    await updateDoc(docRef, { id: docRef.id });
     return docRef.id;
   } catch (error) {
     console.error("Error adding document:", error);/* if somethimg goes wrong gives erroe mesage*/

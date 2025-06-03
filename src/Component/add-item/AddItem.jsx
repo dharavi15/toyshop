@@ -6,19 +6,19 @@ import { addMenuItemToFirestore } from "../../data/api";
 
 const schema = Joi.object({
   name: Joi.string()
-    .pattern(/^[A-Za-zÅÄÖåäö ,]+$/)
+    .pattern(/^[A-Za-zÅÄÖåäö0-9,]+$/)
     .required()
     .messages({
       "string.empty": "The name field is mandatory.",
-      "string.pattern.base": "The name may only contain letters, spaces and commas",
+      "string.pattern.base": "The name may contain letters,numbers, spaces and commas",
     }),
   description: Joi.string()
-    .pattern(/^[A-Za-zÅÄÖåäö ,]+$/)
+    .pattern(/^[A-Za-zÅÄÖåäö0-9,]+$/)
     .max(110)
     .required()
     .messages({
       "string.empty": "The description field is mandatory.",
-      "string.pattern.base": "The description may only contain letters, spaces and commas.",
+      "string.pattern.base": "The description may contain letters,numbers spaces and commas.",
     }),
   price: Joi.number().positive().required().messages({
     "number.base": "The price must be a number.",
@@ -49,7 +49,7 @@ const AddItem = ({ onAddItem }) => {
     const { name, value } = e.target;
 
     if (name === "name" || name === "description") {
-      const newValue = value.replace(/[^A-Za-zÅÄÖåäö ,]/g, "");
+      const newValue = value.replace(/[^A-Za-zÅÄÖåäö0-9,]/g, "");
       setNewItem((prev) => ({ ...prev, [name]: newValue }));
     } else if (name === "price") {
       const numericValue = value.replace(/[^0-9]/g, "");
@@ -97,9 +97,9 @@ const AddItem = ({ onAddItem }) => {
     };
 
     const firestoreId = await addMenuItemToFirestore(item);
-    item.id = firestoreId;
-
-    onAddItem(item);
+    //item.id = firestoreId;
+const newItemWithIds = { ...item, id: firestoreId, firestoreId };
+    onAddItem(newItemWithIds);
 
     setNewItem({
       name: "",

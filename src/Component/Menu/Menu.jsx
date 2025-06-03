@@ -148,9 +148,9 @@ function Menu() {
 <div className={`menu ${editClick ? "show-buttons" : ""}`}>
       {addProductVisible && <AddItem onAddItem={handleAddItem} />}
 
-      {getFilteredAndSortedItems().map((productItem) => (
+      {getFilteredAndSortedItems().map((productItem,index) => (
         <MenuItem
-          key={productItem.id}
+          key={productItem.id ?? index}
           productItem={productItem}
           active={productItem.active}
         />
